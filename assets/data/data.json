@@ -6,6 +6,13 @@
         "motherName": "شكيرا الحنا",
         "locationOfBirth": "بيروت",
         "dateOfBirth": "٢٠٠٥/١٢/٠٤",
-        "idNumber": "٠٠٠٠١٢٣٤٥٦٧٨"
+        "idNumber": "٠٠٠٠١٢٣٤٥٦٧٨",
+        "idIssueDate": "٢٠٢٤/٠١/٠١",
+        "gender": "ذكر",
+        "nationality": "لبناني",
+        "bloodType": "A+",
+        "address": "بيروت",
+        "governorate": "بيروت",
+        "civilRegistryNumber": "١٢٠"
     }
 }

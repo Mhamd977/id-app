@@ -1,5 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+
 interface IdCardDataSectionProps {
     idData: {
         name: string;
@@ -11,35 +12,45 @@ interface IdCardDataSectionProps {
         idNumber: string;
     }
 }
+
 export default function IdCardDataSection({ idData }: IdCardDataSectionProps) {
     return (
-        <View className='flex-1 mt-5'>
-            <View className='flex flex-row gap-1 justify-end '>
-                <Text>{idData.name}</Text>
-                <Text className='font-semibold'>الاسم:</Text>
+        <View className='flex-1'>
+            {/* Personal Information */}
+            <View className='mt-2'>
+                <View className='flex flex-row gap-2 justify-end items-center'>
+                    <Text className='text-base text-gray-600'>{idData.name}</Text>
+                    <Text className='font-semibold text-black'>الاسم:</Text>
+                </View>
+                <View className='flex flex-row gap-2 justify-end items-center'>
+                    <Text className='text-base text-gray-600'>{idData.lastName}</Text>
+                    <Text className='font-semibold text-black'>الشهرة:</Text>
+                </View>
+                <View className='flex flex-row gap-2 justify-end items-center'>
+                    <Text className='text-base text-gray-600'>{idData.fatherName}</Text>
+                    <Text className='font-semibold text-black'>اسم الأب:</Text>
+                </View>
+                <View className='flex flex-row gap-2 justify-end items-center'>
+                    <Text className='text-base text-gray-600'>{idData.motherName}</Text>
+                    <Text className='font-semibold text-black'>اسم الأم:</Text>
+                </View>
             </View>
-            <View className='flex flex-row gap-1 justify-end '>
-                <Text>{idData.lastName}</Text>
-                <Text className='font-semibold'>الشهرة:</Text>
+
+            {/* Birth Information */}
+            <View className='mt-4'>
+                <View className='flex flex-row gap-2 justify-end items-center'>
+                    <Text className='text-base text-gray-600'>{idData.locationOfBirth}</Text>
+                    <Text className='font-semibold text-black'>مكان الولادة:</Text>
+                </View>
+                <View className='flex flex-row gap-2 justify-end items-center'>
+                    <Text className='text-base text-gray-600'>{idData.dateOfBirth}</Text>
+                    <Text className='font-semibold text-black'>تاريخ الولادة:</Text>
+                </View>
             </View>
-            <View className='flex flex-row gap-1 justify-end '>
-                <Text>{idData.fatherName}</Text>
-                <Text className='font-semibold'>اسم الأب:</Text>
-            </View>
-            <View className='flex flex-row gap-1 justify-end '>
-                <Text>{idData.motherName}</Text>
-                <Text className='font-semibold'>اسم الأم:</Text>
-            </View>
-            <View className='flex flex-row gap-1 justify-end mt-7'>
-                <Text>{idData.locationOfBirth}</Text>
-                <Text className='font-semibold'>مكان الولادة:</Text>
-            </View>
-            <View className='flex flex-row gap-1 justify-end '>
-                <Text>{idData.dateOfBirth}</Text>
-                <Text className='font-semibold'>تاريخ الولادة:</Text>
-            </View>
-            <View className='flex flex-row gap-1 justify-center mt-1'>
-                <Text className='text-xl'>{idData.idNumber}</Text>
+
+            {/* ID Number */}
+            <View className='mt-6 bg-blue-50 p-2 rounded-md'>
+                <Text className='text-center text-xl font-bold tracking-wider'>{idData.idNumber}</Text>
             </View>
         </View>
     )

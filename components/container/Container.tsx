@@ -6,7 +6,7 @@ export const Container = ({
     className,
 }: React.PropsWithChildren<{ className?: string }>) => {
     return (
-        <View className={`container mx-auto px-3 ${className}`}>
+        <View className={`container mx-auto px-3 ${className || ''}`}>
             {children}
         </View>
     );
