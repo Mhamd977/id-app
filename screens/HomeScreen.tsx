@@ -10,7 +10,7 @@ export default function HomeScreen({ navigation }: Props) {
   return (
     <Container className=''>
       <View className='mt-3'>
-        <IdCard />
+        <IdCard homePage={true} />
       </View>
       <View className="">
         <Text className="text-2xl">Home Screen</Text>

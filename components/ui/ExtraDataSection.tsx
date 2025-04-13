@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function CardDataData() {
+export default function ExtraDataSection() {
   return (
     <View>
-      <Text>CardDataData</Text>
+      <Text>ExtraDataSection</Text>
     </View>
   )
 }

@@ -49,7 +49,7 @@ export default function IdCardDataSection({ idData }: IdCardDataSectionProps) {
             </View>
 
             {/* ID Number */}
-            <View className='mt-6 bg-blue-50 p-2 rounded-md'>
+            <View className='mt-6 p-2 rounded-md'>
                 <Text className='text-center text-xl font-bold tracking-wider'>{idData.idNumber}</Text>
             </View>
         </View>
