@@ -1,5 +1,6 @@
 {
     "data": {
+        "id": 0,
         "name": "احمد",
         "lastName": "محسن",
         "fatherName": "خالد",
@@ -15,5 +16,41 @@
         "governorate": "بيروت",
         "civilRegistryNumber": "١٢٠",
         "maritalStatus": "اعزب"
-    }
+    },
+    "swiperData": [
+        {
+            "id": 0,
+            "cardType": "driver licence",
+            "fullName": "احمد محسن",
+            "carsAllowed": ["car", "motorcycle"],
+            "expiryDate": "٢٠٢٤/٠١/٠١",
+            "issueDate": "٢٠٢٤/٠١/٠١",
+            "nationality": "لبناني",
+            "bloodType": "A+",
+            "address": "بيروت",
+            "governorate": "بيروت"
+        },
+        {
+            "id": 1,
+            "cardType": "car licence",
+            "fullName": "احمد محسن",
+            "plateNumber": "ABC123",
+            "color": "red",
+            "model": "Toyota",
+            "year": "2020"
+
+        },
+        {
+            "id": 2,
+            "cardType": "dr licence"
+        },
+        {
+            "id": 3,
+            "cardType": "visa",
+            "fullName": "Ahmad Muhsin",
+            "number": "1234567890",
+            "expiryDate": "02/12/28",
+            "cmc": "333"
+        }
+    ]
 }
