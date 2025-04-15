@@ -17,7 +17,6 @@ export default function HomeScreen({ navigation }: Props) {
           <IdCard data={idData.data} homePage={true} />
         </View>
         <View className='mt-5'>
-          <Text>Swiper</Text>
           <CardSwiper data={idData.swiperData} />
         </View>
       </Container>
