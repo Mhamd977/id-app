@@ -1,6 +1,6 @@
 // screens/HomeScreen.tsx
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation';
 import { Container } from '../components/container/Container';
@@ -62,31 +62,33 @@ export default function HomeScreen({ navigation }: Props) {
   }
 
   return (
-    <ScrollView>
-      <Container>
-        {user ? (
-          <View>
-            <View className="mt-5 flex-row justify-between items-center mb-4">
-              <Text className="text-lg font-bold">Welcome, {user.displayName || user.email}</Text>
-              <TouchableOpacity
-                onPress={handleSignOut}
-                className="bg-red-500 px-4 py-2 rounded-md"
-              >
-                <Text className="text-white">Sign Out</Text>
-              </TouchableOpacity>
-            </View>
+    <SafeAreaView>
+      <ScrollView>
+        <Container>
+          {user ? (
+            <View>
+              <View className="mt-3 flex-row justify-between items-center mb-4">
+                <Text className="text-lg font-bold">Welcome, {user.displayName || user.email}</Text>
+                <TouchableOpacity
+                  onPress={handleSignOut}
+                  className="bg-red-500 px-4 py-2 rounded-md"
+                >
+                  <Text className="text-white">Sign Out</Text>
+                </TouchableOpacity>
+              </View>
 
-            <View className='mt-3'>
-              <IdCard data={idData.data} homePage={true} />
+              <View className='mt-3'>
+                <IdCard data={idData.data} homePage={true} />
+              </View>
+              <View className='mt-5'>
+                <CardSwiper data={idData.swiperData} />
+              </View>
             </View>
-            <View className='mt-5'>
-              <CardSwiper data={idData.swiperData} />
-            </View>
-          </View>
-        ) : (
-          <Auth />
-        )}
-      </Container>
-    </ScrollView>
+          ) : (
+            <Auth />
+          )}
+        </Container>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
