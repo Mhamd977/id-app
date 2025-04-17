@@ -41,7 +41,7 @@ export default function CardSwiper({ data }: { data: SwiperDataItem[] }) {
         switch (selectedCard.cardType) {
             case 'driver licence':
                 return (
-                    <View className="bg-white p-5 rounded-xl " style={{ width: CARD_WIDTH, height: height *0.9 }}>
+                    <View className="bg-white p-5 rounded-xl " style={{ width: CARD_WIDTH, height: height * 0.9 }}>
                         <View className='flex flex-row justify-between items-center'>
                             <View>
                                 <TouchableOpacity
@@ -71,7 +71,20 @@ export default function CardSwiper({ data }: { data: SwiperDataItem[] }) {
                 );
             case 'car licence':
                 return (
-                    <View className="bg-white p-6 rounded-xl w-full max-w-md">
+                    <View className="bg-white p-5 rounded-xl " style={{ width: CARD_WIDTH, height: height * 0.9 }}>
+                        <View className='flex flex-row justify-between items-center'>
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => setModalVisible(false)}
+                                    className="bg-gray-500 rounded-full w-10 h-10 flex items-center justify-center"
+                                >
+                                    <Text className="text-white text-center font-bold">X</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                                <Text className="text-xl font-bold text-center">{selectedCard.fullName}</Text>
+                            </View>
+                        </View>
                         <Text className="text-2xl font-bold mb-4 text-center">Car License</Text>
                         <View className="space-y-3">
                             <Text className="text-lg font-semibold">{selectedCard.fullName}</Text>
@@ -80,42 +93,43 @@ export default function CardSwiper({ data }: { data: SwiperDataItem[] }) {
                             <Text>Year: {selectedCard.year}</Text>
                             <Text>Color: {selectedCard.color}</Text>
                         </View>
-                        <TouchableOpacity
-                            onPress={() => setModalVisible(false)}
-                            className="mt-6 bg-blue-500 py-3 rounded-lg"
-                        >
-                            <Text className="text-white text-center font-bold">Close</Text>
-                        </TouchableOpacity>
                     </View>
                 );
             case 'visa':
                 return (
-                    <View className="bg-white p-6 rounded-xl w-full max-w-md">
-                        <Text className="text-2xl font-bold mb-4 text-center">Visa Card</Text>
-                        <View className="space-y-3">
-                            <Text className="text-lg font-semibold">{selectedCard.fullName}</Text>
-                            <Text>Card Number: {selectedCard.number}</Text>
-                            <Text>Expiry Date: {selectedCard.expiryDate}</Text>
-                            <Text>CMC: {selectedCard.cmc}</Text>
+                    <View className="bg-white p-5 rounded-xl " style={{ width: CARD_WIDTH, height: height * 0.9 }}>
+                        <View className='flex flex-row justify-between items-center'>
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => setModalVisible(false)}
+                                    className="bg-gray-500 rounded-full w-10 h-10 flex items-center justify-center"
+                                >
+                                    <Text className="text-white text-center font-bold">X</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                                <Text className="text-xl font-bold text-center">{selectedCard.fullName}</Text>
+                            </View>
                         </View>
-                        <TouchableOpacity
-                            onPress={() => setModalVisible(false)}
-                            className="mt-6 bg-blue-500 py-3 rounded-lg"
-                        >
-                            <Text className="text-white text-center font-bold">Close</Text>
-                        </TouchableOpacity>
                     </View>
                 );
             default:
                 return (
-                    <View className="bg-white p-6 rounded-xl w-full max-w-md">
+                    <View className="bg-white p-5 rounded-xl " style={{ width: CARD_WIDTH, height: height * 0.9 }}>
+                        <View className='flex flex-row justify-between items-center'>
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => setModalVisible(false)}
+                                    className="bg-gray-500 rounded-full w-10 h-10 flex items-center justify-center"
+                                >
+                                    <Text className="text-white text-center font-bold">X</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                                <Text className="text-xl font-bold text-center">{selectedCard.fullName}</Text>
+                            </View>
+                        </View>
                         <Text className="text-2xl font-bold mb-4 text-center">{selectedCard.cardType}</Text>
-                        <TouchableOpacity
-                            onPress={() => setModalVisible(false)}
-                            className="mt-6 bg-blue-500 py-3 rounded-lg"
-                        >
-                            <Text className="text-white text-center font-bold">Close</Text>
-                        </TouchableOpacity>
                     </View>
                 );
         }

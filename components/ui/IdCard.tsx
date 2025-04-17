@@ -15,15 +15,21 @@ import treeLogo from '../../assets/images/tree-logo.png';
 
 interface IdCardProps {
     homePage?: boolean;
-    data: typeof idData.data;
+    data: any;
 }
 
 export default function IdCard({ homePage = false, data }: IdCardProps) {
+    console.log('data', data);
+    
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     const handlePress = () => {
         navigation.navigate('IdInfo');
     };
+
+    if (data == undefined) {
+        return <View><Text>data is undefined {JSON.stringify(data)}</Text></View>
+    }
 
     return (
         <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>

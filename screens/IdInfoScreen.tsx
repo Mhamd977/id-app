@@ -16,7 +16,7 @@ export default function IdInfoScreen() {
     <ScrollView>
       <Container>
         <View className='mt-3'>
-          <IdCard homePage={false} />
+          <IdCard data={idData.data} homePage={false} />
         </View>
       </Container>
     </ScrollView>
