@@ -12,6 +12,7 @@ import idData from '../assets/data/data.json';
 
 import { initializeApp } from '@firebase/app';
 import { getAuth, onAuthStateChanged, signOut, User } from '@firebase/auth';
+import AddBtnLink from '../components/ui/add-id-data/AddBtnLink';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCFMidDp5HQYM1Wj-xoIBIpnq6xSwvgOdA",
@@ -30,6 +31,7 @@ const auth = getAuth(app);
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export default function HomeScreen({ navigation }: Props) {
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -67,6 +69,8 @@ export default function HomeScreen({ navigation }: Props) {
         <Container>
           {user ? (
             <View>
+              <AddBtnLink/>
+
               <View className="mt-3 flex-row justify-between items-center mb-4">
                 <Text className="text-lg font-bold">Welcome, {user.displayName || user.email}</Text>
                 <TouchableOpacity
