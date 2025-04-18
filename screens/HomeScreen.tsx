@@ -63,7 +63,7 @@ export default function HomeScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView className=''>
         <Container>
           {user ? (
             <View>
@@ -80,7 +80,7 @@ export default function HomeScreen({ navigation }: Props) {
               <View className='mt-3'>
                 <IdCard data={idData.data} homePage={true} />
               </View>
-              <View className='mt-5'>
+              <View className='mt-5 mb-5'>
                 <CardSwiper data={idData.swiperData} />
               </View>
             </View>
