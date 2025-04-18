@@ -69,8 +69,7 @@ export default function HomeScreen({ navigation }: Props) {
         <Container>
           {user ? (
             <View>
-              <AddBtnLink/>
-
+              
               <View className="mt-3 flex-row justify-between items-center mb-4">
                 <Text className="text-lg font-bold">Welcome, {user.displayName || user.email}</Text>
                 <TouchableOpacity
@@ -80,6 +79,9 @@ export default function HomeScreen({ navigation }: Props) {
                   <Text className="text-white">Sign Out</Text>
                 </TouchableOpacity>
               </View>
+
+              <AddBtnLink/>
+
 
               <View className='mt-3'>
                 <IdCard data={idData.data} homePage={true} />
