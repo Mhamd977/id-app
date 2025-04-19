@@ -1,22 +1,40 @@
-import { View, Text, Image, ScrollView } from 'react-native'
-import React from 'react'
+import { View, ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Container } from '../components/container/Container'
-import CardTitle from '../components/ui/CardTitle'
-import SubCardTitle from '../components/ui/SubCardTitle'
 
-import IdCardDataSection from '../components/ui/IdCardDataSection'
-
-import treeLogo from '../assets/images/tree-logo.png';
-import idData from '../assets/data/data.json'
-import profileImage from '../assets/images/profile-blank.jpg';
 import IdCard from '../components/ui/IdCard'
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 export default function IdInfoScreen() {
+
+  const [idData, setIdData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storedData = await AsyncStorage.getItem('@idData');
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          setIdData(parsedData);
+        }
+      } catch (error) {
+        console.error("Error retrieving data from AsyncStorage", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+
   return (
     <ScrollView>
       <Container>
         <View className='mt-3'>
-          <IdCard data={idData.data} homePage={false} />
+          {idData !== null && (
+            <IdCard data={idData} homePage={false} />
+          )}
         </View>
       </Container>
     </ScrollView>
