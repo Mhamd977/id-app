@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Dimensions, TouchableOpacity, Modal, ScrollView, Pressable, Button } from 'react-native';
+import {
+    View,
+    Text,
+    FlatList,
+    Dimensions,
+    TouchableOpacity,
+    Modal,
+    ScrollView,
+    Pressable,
+    Button
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { app } from '../../firebase/firebaseConfig';
@@ -36,10 +46,25 @@ interface AddCardItem {
 
 type CardItem = SwiperDataItem | AddCardItem;
 
-const { width } = Dimensions.get('window');
-const { height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.8;
 const SPACING = 10;
+
+// A simple helper to translate card types (can be extended later)
+const translateCardType = (type: string): string => {
+    switch (type) {
+        case 'driver licence':
+            return 'رخصة قيادة';
+        case 'car licence':
+            return 'رخصة مركبة';
+        case 'dr licence':
+            return 'رخصة دكتور';
+        case 'visa':
+            return 'بطاقة فيزا';
+        default:
+            return type;
+    }
+};
 
 export default function CardSwiper() {
     const navigation = useNavigation<NavigationProp>();
@@ -77,8 +102,7 @@ export default function CardSwiper() {
                 })) as SwiperDataItem[];
                 allCards = [...allCards, ...cardList];
             }
-            
-            
+
             if (allCards.length > 0) {
                 setCards(allCards);
                 const newData: CardItem[] = [...allCards, { id: 'add', cardType: 'add' }];
@@ -87,7 +111,7 @@ export default function CardSwiper() {
                 setData([{ id: 'add', cardType: 'add' }]);
             }
         } catch (error) {
-            console.error('Error fetching cards from Firebase:', error);
+            console.error('حدث خطأ أثناء جلب البطاقات من Firebase:', error);
         }
     };
 
@@ -103,102 +127,105 @@ export default function CardSwiper() {
         setModalVisible(true);
     };
 
-    // The model popup Card
     const renderCardModal = () => {
         if (!selectedCard) return null;
+
+        const translatedCardType = translateCardType(selectedCard.cardType);
 
         switch (selectedCard.cardType) {
             case 'driver licence':
                 return (
-                    <View className="bg-white p-5 rounded-xl " style={{ width: CARD_WIDTH, height: height * 0.9 }}>
-                        <View className='flex flex-row justify-between items-center'>
-                            <View>
-                                <Pressable
-                                    onPress={() => setModalVisible(false)}
-                                    className="bg-gray-500 rounded-full w-10 h-10 flex items-center justify-center"
-                                >
-                                    <Text className="text-white text-center font-bold">X</Text>
-                                </Pressable>
-                            </View>
-                            <View>
-                                <Text className="text-xl font-bold text-center">{selectedCard.fullName}</Text>
-                            </View>
+                    <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, width: CARD_WIDTH, height: height * 0.9 }}>
+                        <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 20 }}>
+                            <Pressable
+                                onPress={() => setModalVisible(false)}
+                                style={{ backgroundColor: '#555', borderRadius: 50, width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }}
+                            >
+                                <Text style={{ color: '#fff', fontWeight: 'bold' }}>X</Text>
+                            </Pressable>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', flex: 1, marginHorizontal: 10 }}>
+                                {selectedCard.fullName}
+                            </Text>
                         </View>
-
-
-                        <View className="space-y-3 my-5">
-                            <Text className="text-lg font-semibold">{selectedCard.fullName}</Text>
-                            <Text>Nationality: {selectedCard.nationality ?? 'N/A'}</Text>
-                            <Text>Blood Type: {selectedCard.bloodType ?? 'N/A'}</Text>
-                            <Text>Address: {selectedCard.address ?? 'N/A'}</Text>
-                            <Text>Governorate: {selectedCard.governorate}</Text>
-                            <Text>Allowed Vehicles: {selectedCard.carsAllowed?.join(', ') ?? "N/A"}</Text>
-                            <Text>Issue Date: {selectedCard.issueDate}</Text>
-                            <Text>Expiry Date: {selectedCard.expiryDate}</Text>
-                        </View>
+                        <ScrollView>
+                            <View style={{ marginVertical: 10 }}>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>الجنسية: <Text style={{ fontWeight: 'normal' }}>{selectedCard.nationality ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>فصيلة الدم: <Text style={{ fontWeight: 'normal' }}>{selectedCard.bloodType ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>العنوان: <Text style={{ fontWeight: 'normal' }}>{selectedCard.address ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>المحافظة: <Text style={{ fontWeight: 'normal' }}>{selectedCard.governorate ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>المركبات المسموحة: <Text style={{ fontWeight: 'normal' }}>{selectedCard.carsAllowed?.join(', ') ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>تاريخ الإصدار: <Text style={{ fontWeight: 'normal' }}>{selectedCard.issueDate ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>تاريخ الانتهاء: <Text style={{ fontWeight: 'normal' }}>{selectedCard.expiryDate ?? 'غير متوفر'}</Text></Text>
+                            </View>
+                        </ScrollView>
                     </View>
                 );
             case 'car licence':
                 return (
-                    <View className="bg-white p-5 rounded-xl " style={{ width: CARD_WIDTH, height: height * 0.9 }}>
-                        <View className='flex flex-row justify-between items-center'>
-                            <View>
-                                <Pressable
-                                    onPress={() => setModalVisible(false)}
-                                    className="bg-gray-500 rounded-full w-10 h-10 flex items-center justify-center"
-                                >
-                                    <Text className="text-white text-center font-bold">X</Text>
-                                </Pressable>
-                            </View>
-                            <View>
-                                <Text className="text-xl font-bold text-center">{selectedCard.fullName}</Text>
-                            </View>
+                    <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, width: CARD_WIDTH, height: height * 0.9 }}>
+                        <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 20 }}>
+                            <Pressable
+                                onPress={() => setModalVisible(false)}
+                                style={{ backgroundColor: '#555', borderRadius: 50, width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }}
+                            >
+                                <Text style={{ color: '#fff', fontWeight: 'bold' }}>X</Text>
+                            </Pressable>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', flex: 1, marginHorizontal: 10 }}>
+                                {selectedCard.fullName}
+                            </Text>
                         </View>
-                        <Text className="text-2xl font-bold mb-4 text-center">Car License</Text>
-                        <View className="space-y-3">
-                            <Text className="text-lg font-semibold">{selectedCard.fullName}</Text>
-                            <Text>Plate Number: {selectedCard.plateNumber}</Text>
-                            <Text>Model: {selectedCard.model}</Text>
-                            <Text>Year: {selectedCard.year}</Text>
-                            <Text>Color: {selectedCard.color}</Text>
-                        </View>
+                        <ScrollView>
+                            <View style={{ marginVertical: 10 }}>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>رقم اللوحة: <Text style={{ fontWeight: 'normal' }}>{selectedCard.plateNumber ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>الطراز: <Text style={{ fontWeight: 'normal' }}>{selectedCard.model ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>السنة: <Text style={{ fontWeight: 'normal' }}>{selectedCard.year ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>اللون: <Text style={{ fontWeight: 'normal' }}>{selectedCard.color ?? 'غير متوفر'}</Text></Text>
+                            </View>
+                        </ScrollView>
                     </View>
                 );
             case 'visa':
                 return (
-                    <View className="bg-white p-5 rounded-xl " style={{ width: CARD_WIDTH, height: height * 0.9 }}>
-                        <View className='flex flex-row justify-between items-center'>
-                            <View>
-                                <Pressable
-                                    onPress={() => setModalVisible(false)}
-                                    className="bg-gray-500 rounded-full w-10 h-10 flex items-center justify-center"
-                                >
-                                    <Text className="text-white text-center font-bold">X</Text>
-                                </Pressable>
-                            </View>
-                            <View className=''>
-                                <Text className="text-xl font-bold text-center">{selectedCard.fullName}</Text>
-                            </View>
+                    <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, width: CARD_WIDTH, height: height * 0.9 }}>
+                        <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 20 }}>
+                            <Pressable
+                                onPress={() => setModalVisible(false)}
+                                style={{ backgroundColor: '#555', borderRadius: 50, width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }}
+                            >
+                                <Text style={{ color: '#fff', fontWeight: 'bold' }}>X</Text>
+                            </Pressable>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', flex: 1, marginHorizontal: 10 }}>
+                                {selectedCard.fullName}
+                            </Text>
                         </View>
+                        <ScrollView>
+                            <View style={{ marginVertical: 10 }}>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>رقم البطاقة: <Text style={{ fontWeight: 'normal' }}>{selectedCard.number ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>تاريخ الانتهاء: <Text style={{ fontWeight: 'normal' }}>{selectedCard.expiryDate ?? 'غير متوفر'}</Text></Text>
+                                <Text style={{ fontSize: 18, marginBottom: 5 }}>رمز CMC: <Text style={{ fontWeight: 'normal' }}>{selectedCard.cmc ?? 'غير متوفر'}</Text></Text>
+                            </View>
+                        </ScrollView>
                     </View>
                 );
             default:
                 return (
-                    <View className="bg-white p-5 rounded-xl " style={{ width: CARD_WIDTH, height: height * 0.9 }}>
-                        <View className='flex flex-row justify-between items-center'>
-                            <View>
-                                <Pressable
-                                    onPress={() => setModalVisible(false)}
-                                    className="bg-gray-500 rounded-full w-10 h-10 flex items-center justify-center"
-                                >
-                                    <Text className="text-white text-center font-bold">X</Text>
-                                </Pressable>
-                            </View>
-                            <View className=''>
-                                <Text className="text-xl font-bold text-center">{selectedCard.fullName}</Text>
-                            </View>
+                    <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, width: CARD_WIDTH, height: height * 0.9 }}>
+                        <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 20 }}>
+                            <Pressable
+                                onPress={() => setModalVisible(false)}
+                                style={{ backgroundColor: '#555', borderRadius: 50, width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }}
+                            >
+                                <Text style={{ color: '#fff', fontWeight: 'bold' }}>X</Text>
+                            </Pressable>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', flex: 1, marginHorizontal: 10 }}>
+                                {selectedCard.fullName}
+                            </Text>
                         </View>
-                        <Text className="text-2xl font-bold mb-4 text-center">{selectedCard.cardType}</Text>
+                        <ScrollView>
+                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                                {selectedCard.cardType}
+                            </Text>
+                        </ScrollView>
                     </View>
                 );
         }
@@ -210,15 +237,16 @@ export default function CardSwiper() {
                 <Pressable
                     onPress={navigateToAddCard}
                     style={{ width: CARD_WIDTH }}
-                    className='bg-gray-100 p-4 rounded-lg shadow-lg border border-gray-200 mx-2 flex items-center justify-center'
+                    className="bg-gray-100 p-4 rounded-lg shadow-lg border border-gray-200 mx-2 flex items-center justify-center"
                 >
                     <Ionicons name="add-circle" size={64} color="#007bff" />
-                    <Text className='text-lg font-medium text-gray-700 mt-2'>Add More Card</Text>
+                    <Text className="text-lg font-medium text-gray-700 mt-2">إضافة بطاقة جديدة</Text>
                 </Pressable>
             );
         }
 
         const cardItem = item as SwiperDataItem;
+        const translatedCardType = translateCardType(cardItem.cardType);
 
         switch (cardItem.cardType) {
             case 'driver licence':
@@ -226,14 +254,14 @@ export default function CardSwiper() {
                     <TouchableOpacity
                         onPress={() => handleCardPress(cardItem)}
                         style={{ width: CARD_WIDTH }}
-                        className='bg-white p-4 rounded-lg shadow-lg border border-gray-200 mx-2'
+                        className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 mx-2"
                     >
-                        <Text className='text-xl font-bold mb-2'>{cardItem.cardType}</Text>
-                        <View className='space-y-2'>
-                            <Text className='text-base'>{cardItem.fullName}</Text>
-                            <Text className='text-sm text-gray-600'>Allowed Vehicles: {cardItem.carsAllowed?.join(', ') ?? 'N/A'}</Text>
-                            <Text className='text-sm text-gray-600'>Expiry: {cardItem.expiryDate}</Text>
-                            <Text className='text-sm text-gray-600'>Issue Date: {cardItem.issueDate}</Text>
+                        <Text className="text-xl font-bold mb-2">{translatedCardType}</Text>
+                        <View className="space-y-2">
+                            <Text className="text-base">{cardItem.fullName}</Text>
+                            <Text className="text-sm text-gray-600">المركبات المسموحة: {cardItem.carsAllowed?.join(', ') ?? 'غير محدد'}</Text>
+                            <Text className="text-sm text-gray-600">تاريخ الانتهاء: {cardItem.expiryDate ?? 'غير محدد'}</Text>
+                            <Text className="text-sm text-gray-600">تاريخ الإصدار: {cardItem.issueDate ?? 'غير محدد'}</Text>
                         </View>
                     </TouchableOpacity>
                 );
@@ -242,15 +270,13 @@ export default function CardSwiper() {
                     <TouchableOpacity
                         onPress={() => handleCardPress(cardItem)}
                         style={{ width: CARD_WIDTH }}
-                        className='bg-white p-4 rounded-lg shadow-lg border border-gray-200 mx-2'
+                        className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 mx-2"
                     >
-                        <Text className='text-xl font-bold mb-2'>{cardItem.cardType}</Text>
-                        <View className='space-y-2'>
-                            <Text className='text-base'>{cardItem.fullName}</Text>
-                            <Text className='text-sm text-gray-600'>Plate: {cardItem.plateNumber}</Text>
-                            <Text className='text-sm text-gray-600'>Model: {cardItem.model}</Text>
-                            <Text className='text-sm text-gray-600'>Year: {cardItem.year}</Text>
-                            <Text className='text-sm text-gray-600'>Color: {cardItem.color}</Text>
+                        <Text className="text-xl font-bold mb-2">{translatedCardType}</Text>
+                        <View className="space-y-2">
+                            <Text className="text-base">{cardItem.fullName}</Text>
+                            <Text className="text-sm text-gray-600">رقم اللوحة: {cardItem.plateNumber ?? 'غير محدد'}</Text>
+                            <Text className="text-sm text-gray-600">الطراز: {cardItem.model ?? 'غير محدد'}</Text>
                         </View>
                     </TouchableOpacity>
                 );
@@ -259,29 +285,36 @@ export default function CardSwiper() {
                     <TouchableOpacity
                         onPress={() => handleCardPress(cardItem)}
                         style={{ width: CARD_WIDTH }}
-                        className='bg-white p-4 rounded-lg shadow-lg border border-gray-200 mx-2'
+                        className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 mx-2"
                     >
-                        <Text className='text-xl font-bold'>{cardItem.cardType}</Text>
+                        <Text className="text-xl font-bold">{cardItem.cardType}</Text>
                     </TouchableOpacity>
                 );
         }
     };
+    
 
     return (
         <View className="flex-1">
-            <FlatList
-                data={data}
-                renderItem={renderCard}
-                keyExtractor={(item) => item.id.toString()}
-                horizontal
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                snapToInterval={CARD_WIDTH + SPACING * 2}
-                decelerationRate="fast"
-                contentContainerStyle={{
-                    paddingHorizontal: SPACING,
-                }}
-            />
+            {data.length > 0 ? (
+                <FlatList
+                    data={data}
+                    renderItem={renderCard}
+                    keyExtractor={(item) => item.id.toString()}
+                    horizontal
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                    snapToInterval={CARD_WIDTH + SPACING * 2}
+                    decelerationRate="fast"
+                    contentContainerStyle={{
+                        paddingHorizontal: SPACING,
+                    }}
+                />
+            ) : (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>جاري تحميل البطاقات...</Text>
+                </View>
+            )}
 
             <Modal
                 animationType="fade"
@@ -303,7 +336,3 @@ export default function CardSwiper() {
         </View>
     );
 }
-
-
-
-
