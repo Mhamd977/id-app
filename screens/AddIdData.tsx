@@ -1,6 +1,7 @@
 import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { collection, addDoc, getFirestore } from "firebase/firestore";
+import { collection, addDoc, getFirestore, query, where, getDocs } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { app } from "../firebase/firebaseConfig"
 import { useNavigation } from '@react-navigation/native';
 
@@ -49,27 +50,46 @@ function AddIdData() {
     });
     const handleSendData = async (data: FormValues) => {
         try {
+             const auth = getAuth(app);
+            const currentUser = auth.currentUser;
+            const userEmail = currentUser?.email;
+           
+            const idNumber = data.idNumber;
+            const q = query(collection(db, "IdData"), where("idNumber", "==", idNumber));
+            const querySnapshot = await getDocs(q);
 
-            console.log("data:", data);
+            if (!querySnapshot.empty) {
 
-            const docRef = await addDoc(collection(db, "IdData"), {
-                ...data, status: 'pending',
+                Alert.alert("Error", "You have already submitted your ID data.");
+            } else {
+                
+                const docRef = await addDoc(collection(db, "IdData"), {
+                    ...data,
+                     userEmail: userEmail,
+                    status: 'pending',
+                });
+    
+                console.log('Document written with ID: ', docRef.id);
+    
+                Alert.alert("Success", "Data saved successfully!", [{
+                    text: "OK", onPress: () => {
+                        navigation.navigate("Home" as never);
+                    }
+                }]);
 
-            });
+            }
 
-            console.log('Document written with ID: ', docRef.id);
-
-            Alert.alert("Success", "Data saved successfully!", [{
-                text: "OK", onPress: () => {
-                    navigation.navigate("Home" as never);
-                }
-            }]);
+            
 
 
 
         } catch (e) {
-            console.error("Error adding document: ", e);
-            Alert.alert("Error", "Failed to save data. Please try again.");
+            if (e instanceof Error) {
+                console.error("Error adding document: ", e.message);
+                 Alert.alert("Error", `Failed to save data. Please try again.${e.message}`);
+            }else{
+                 Alert.alert("Error", `Failed to save data. Please try again.`);
+                }
         }
     };
 
