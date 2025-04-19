@@ -8,7 +8,6 @@ export default function AboutScreen() {
       <Container>
         <Text className="text-2xl text-right">تم عمل هذا التطبيق من قبلي.</Text>
         <Text className='text-right text-bold'>حسن عطار</Text>
-
         <AdminPanel />
       </Container>
     </ScrollView>

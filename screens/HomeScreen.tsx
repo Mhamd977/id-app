@@ -17,6 +17,7 @@ import idData from '../assets/data/data.json';
 import { initializeApp } from '@firebase/app';
 import { getAuth, onAuthStateChanged, signOut, User } from '@firebase/auth';
 import AddBtnLink from '../components/ui/add-id-data/AddBtnLink';
+import LinkBtn from '../components/ui/about-us/LinkBtn';
 
 const firebaseConfig = {
 
@@ -37,60 +38,60 @@ export default function HomeScreen({ navigation }: Props) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-        setUser(currentUser);
-  
-        if (currentUser) {
-          const storedData = await AsyncStorage.getItem('@idData');
-          if (storedData) {
-            const parsedData = JSON.parse(storedData);
-            setTheIdData(parsedData);
-            setIdDataStatus(parsedData.status);
-            setLoading(false); 
-          }
-          const db = getFirestore(app);
-  
-          const userEmail = currentUser.email;
-  
-          const q = query(collection(db, 'IdData'), where('userEmail', '==', userEmail));
-          const querySnapshot = await getDocs(q);
-  
-          if (querySnapshot.empty) {
-            setIdDataStatus(false);
-            try {
-              await AsyncStorage.removeItem("@idData");
-            } catch (e) {
-              console.error("Error removing data from AsyncStorage", e);
-            }
-          } else {
-            querySnapshot.forEach(async (doc) => {
-              const data = doc.data()
-              setTheIdData(data);
-              
-              console.log("Document data:", data);
-              try {
-                await AsyncStorage.setItem('@idData', JSON.stringify(data));
-              } catch (e) {
-                console.error("Error saving data to AsyncStorage", e);
-              }
-              if (idDataStatus !== data.status) {
-                setIdDataStatus(data.status);
-              }
-            });
-          }
+      setUser(currentUser);
+
+      if (currentUser) {
+        const storedData = await AsyncStorage.getItem('@idData');
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          setTheIdData(parsedData);
+          setIdDataStatus(parsedData.status);
+          setLoading(false);
         }
-  
-        setLoading(false);
-      });
-  
-      // Cleanup subscription
-      return () => unsubscribe();
-    }, []);
-  
+        const db = getFirestore(app);
+
+        const userEmail = currentUser.email;
+
+        const q = query(collection(db, 'IdData'), where('userEmail', '==', userEmail));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          setIdDataStatus(false);
+          try {
+            await AsyncStorage.removeItem("@idData");
+          } catch (e) {
+            console.error("Error removing data from AsyncStorage", e);
+          }
+        } else {
+          querySnapshot.forEach(async (doc) => {
+            const data = doc.data()
+            setTheIdData(data);
+
+            console.log("Document data:", data);
+            try {
+              await AsyncStorage.setItem('@idData', JSON.stringify(data));
+            } catch (e) {
+              console.error("Error saving data to AsyncStorage", e);
+            }
+            if (idDataStatus !== data.status) {
+              setIdDataStatus(data.status);
+            }
+          });
+        }
+      }
+
+      setLoading(false);
+    });
+
+    // Cleanup subscription
+    return () => unsubscribe();
+  }, []);
+
 
   console.log("theIdData", theIdData);
 
   useEffect(() => {
-    
+
   }, [idDataStatus])
 
 
@@ -135,10 +136,10 @@ export default function HomeScreen({ navigation }: Props) {
                 : idDataStatus === false ? (
                   <AddBtnLink />
                 ) : idDataStatus === null ? null : (
-                <AddBtnLink />
-              )}
+                  <AddBtnLink />
+                )}
               <View className='mt-5 mb-5'>
-                <CardSwiper data={idData.swiperData} />
+                <CardSwiper />
               </View>
             </View>
           ) : (
