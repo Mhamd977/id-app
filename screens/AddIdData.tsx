@@ -2,6 +2,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView } from 're
 import { useForm, Controller } from 'react-hook-form';
 import { collection, addDoc, getFirestore } from "firebase/firestore";
 import { app } from "../firebase/firebaseConfig"
+import { useNavigation } from '@react-navigation/native';
 
 
 type Gender = 'Male' | 'Female';
@@ -25,6 +26,7 @@ interface FormValues {
 }
 
 function AddIdData() {
+    const navigation = useNavigation();
     const db = getFirestore(app);
     const { control, handleSubmit, formState: { errors } } = useForm<FormValues>({
         defaultValues: {
@@ -57,7 +59,11 @@ function AddIdData() {
 
             console.log('Document written with ID: ', docRef.id);
 
-            Alert.alert("Success", "Data saved successfully!");
+            Alert.alert("Success", "Data saved successfully!", [{
+                text: "OK", onPress: () => {
+                    navigation.navigate("Home" as never);
+                }
+            }]);
 
 
 
