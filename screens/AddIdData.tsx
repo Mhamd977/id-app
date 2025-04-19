@@ -97,7 +97,7 @@ function AddIdData() {
                     )}
                     name="name"
                 />
-                {errors.name && <Text>This is required.</Text>}
+                {errors.name && <Text className='text-red-500'>This is required.</Text>}
 
                 <Text style={styles.label}>Last Name</Text>
                 <Controller
@@ -113,7 +113,7 @@ function AddIdData() {
                     )}
                     name='lastName'
                 />
-                {errors.lastName && <Text>This is required.</Text>}
+                {errors.lastName && <Text className='text-red-500'>This is required.</Text>}
 
                 <Text style={styles.label}>Date of Birth</Text>
                 <Controller
@@ -129,7 +129,7 @@ function AddIdData() {
                     )}
                     name='dateOfBirth'
                 />
-                {errors.dateOfBirth && <Text>This is required.</Text>}
+                {errors.dateOfBirth && <Text className='text-red-500'>This is required.</Text>}
                 <Text style={styles.label}>Father's Name</Text>
                 <Controller
                     control={control}
@@ -144,7 +144,7 @@ function AddIdData() {
                     )}
                     name='fatherName'
                 />
-                {errors.fatherName && <Text>This is required.</Text>}
+                {errors.fatherName && <Text className='text-red-500'>This is required.</Text>}
 
                 <Text style={styles.label}>Mother's Name</Text>
                 <Controller
@@ -160,7 +160,7 @@ function AddIdData() {
                     )}
                     name='motherName'
                 />
-                {errors.motherName && <Text>This is required.</Text>}
+                {errors.motherName && <Text className='text-red-500'>This is required.</Text>}
 
                 <Text style={styles.label}>Gender</Text>
                 <Controller
@@ -172,11 +172,12 @@ function AddIdData() {
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
+                            placeholder='Male | Female'
                         />
                     )}
                     name='gender'
                 />
-                {errors.gender && <Text>This is required.</Text>}
+                {errors.gender && <Text className='text-red-500'>This is required.</Text>}
 
                 <Text style={styles.label}>Place of Birth</Text>
                 <Controller
@@ -192,7 +193,7 @@ function AddIdData() {
                     )}
                     name='locationOfBirth'
                 />
-                {errors.locationOfBirth && <Text>This is required.</Text>}
+                {errors.locationOfBirth && <Text className='text-red-500'>This is required.</Text>}
 
                 <Text style={styles.label}>Governorate</Text>
                 <Controller
@@ -208,7 +209,7 @@ function AddIdData() {
                     )}
                     name='governorate'
                 />
-                {errors.governorate && <Text>This is required.</Text>}
+                {errors.governorate && <Text className='text-red-500'>This is required.</Text>}
 
                 <Text style={styles.label}>Civil Registry Number</Text>
                 <Controller
@@ -220,11 +221,12 @@ function AddIdData() {
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
+                            keyboardType='numeric'
                         />
                     )}
                     name='civilRegistryNumber'
                 />
-                {errors.civilRegistryNumber && <Text>This is required.</Text>}
+                {errors.civilRegistryNumber && <Text className='text-red-500'>This is required.</Text>}
                 <Text style={styles.label}>Marital Status</Text>
                 <Controller
                     control={control}
@@ -239,7 +241,7 @@ function AddIdData() {
                     )}
                     name='maritalStatus'
                 />
-                {errors.maritalStatus && <Text>This is required.</Text>}
+                {errors.maritalStatus && <Text className='text-red-500'>This is required.</Text>}
                 <Text style={styles.label}>Blood Type</Text>
                 <Controller
                     control={control}
@@ -254,7 +256,7 @@ function AddIdData() {
                     )}
                     name='bloodType'
                 />
-                {errors.bloodType && <Text>This is required.</Text>}
+                {errors.bloodType && <Text className='text-red-500'>This is required.</Text>}
                 <Text style={styles.label}>ID Issue Date</Text>
                 <Controller
                     control={control}
@@ -269,9 +271,9 @@ function AddIdData() {
                     )}
                     name='idIssueDate'
                 />
-                {errors.idIssueDate && <Text>This is required.</Text>}
+                {errors.idIssueDate && <Text className='text-red-500'>This is required.</Text>}
 
-                {errors.dateOfBirth && <Text>This is required.</Text>}
+                {errors.dateOfBirth && <Text className='text-red-500'>This is required.</Text>}
 
                 <Text style={styles.label}>Address</Text>
                 <Controller
@@ -282,17 +284,23 @@ function AddIdData() {
                     )}
                     name="address"
                 />
-                {errors.address && <Text>This is required.</Text>}
+                {errors.address && <Text className='text-red-500'>This is required.</Text>}
                 <Text style={styles.label}>ID Number</Text>
                 <Controller
                     control={control}
                     rules={{ required: true }}
                     render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput style={styles.input} onBlur={onBlur} onChangeText={onChange} value={value} />
+                        <TextInput
+                            style={styles.input}
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                            keyboardType='numeric'
+                             />
                     )}
                     name="idNumber"
                 />
-                {errors.idNumber && <Text>This is required.</Text>}
+                {errors.idNumber && <Text className='text-red-500'>This is required.</Text>}
 
                 <Button title="Submit" onPress={handleSubmit(onSubmit)} />
             </View>
@@ -307,12 +315,12 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     label: {
-        marginBottom: 5,
+        marginBottom: 0,
     },
     input: {
         borderWidth: 1,
         borderColor: 'gray',
-        marginBottom: 15,
+        marginTop: 5,
         padding: 10,
     },
 });
