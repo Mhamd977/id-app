@@ -9,7 +9,6 @@ import SubCardTitle from './SubCardTitle'
 
 import IdCardDataSection from './IdCardDataSection';
 
-import idData from '../../assets/data/data.json'
 import profileImage from '../../assets/images/profile-blank.jpg';
 import treeLogo from '../../assets/images/tree-logo.png';
 
@@ -19,7 +18,6 @@ interface IdCardProps {
 }
 
 export default function IdCard({ homePage = false, data }: IdCardProps) {
-    console.log('data', data);
     
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -68,7 +66,7 @@ export default function IdCard({ homePage = false, data }: IdCardProps) {
                     <View className='mt-1 flex flex-row justify-end'>
                         <View className='w-full flex flex-row gap-2 justify-between'>
                             <View>
-                                <Text className='text-lg font-bold'>A+</Text>
+                                <Text className='text-lg font-bold'>{data.bloodType}</Text>
                             </View>
                             <View className='min-h-[200px]'>
                                 <View className='flex flex-row gap-2 justify-end items-center'>
